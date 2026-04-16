@@ -3,7 +3,12 @@ from models.cnn import CNN
 
 class Policy(nn.Module):
     def __init__(self, action_dim):
-        pass
+        super().__init__()
+
+        self.encoder = CNN()
+        self.actor = nn.Linear(256, action_dim)
+        self.critic = nn.Linear(256, 1)
 
     def forward(self, x):
-        pass
+        features = self.encoder(x)
+        return self.actor(features), self.critic(features)
